@@ -1,1 +1,20 @@
 name: Build mod
+on:
+  workflow_dispatch:
+  push:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Download Forge MDK
+        run: |
+          V=$(curl -s https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json | jq -r '.promos["1.21.10-latest"]')
+          echo "Forge version: $V"
+          curl -fL -o mdk.zip "https://maven.minecraftforge.net/net/minecraftforge/forge/1.21.10-$V/forge-1.21.10-$V-mdk.zip"
+          mkdir mdk
+          unzip -q mdk.zip -d mdk

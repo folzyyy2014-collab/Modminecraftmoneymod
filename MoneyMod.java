@@ -114,7 +114,7 @@ enum Machine {
     public boolean matches(ItemStack s) {
         if (s.isEmpty()) return false;
         CustomData d = s.get(DataComponents.CUSTOM_DATA);
-        return d != null && d.contains("moneymod_" + id);
+        return d != null && d.copyTag().contains("moneymod_" + id);
     }
 }
 

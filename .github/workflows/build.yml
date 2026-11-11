@@ -18,3 +18,21 @@ jobs:
           curl -fL -o mdk.zip "https://maven.minecraftforge.net/net/minecraftforge/forge/1.21.10-$V/forge-1.21.10-$V-mdk.zip"
           mkdir mdk
           unzip -q mdk.zip -d mdk
+      - name: Add mod sources
+        run: |
+          cd mdk
+          rm -rf src/main/java/com/example/examplemod
+          mkdir -p src/main/java/com/example/moneymod
+          cp ../*.java src/main/java/com/example/moneymod/
+          sed -i 's/^mod_id=.*/mod_id=moneymod/' gradle.properties
+          sed -i 's/^mod_name=.*/mod_name=Money Mod/' gradle.properties
+          sed -i 's/^mod_group_id=.*/mod_group_id=com.example.moneymod/' gradle.properties
+      - name: Build
+        run: |
+          cd mdk
+          chmod +x gradlew
+          ./gradlew build --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: moneymod
+          path: mdk/build/libs/*.jar

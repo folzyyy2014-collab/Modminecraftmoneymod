@@ -1,368 +1,338 @@
 
 
-package comDOTexampleDOTmoneymod;
-
-import comDOTgoogleDOTgsonDOTGson;
-import comDOTgoogleDOTgsonDOTGsonBuilder;
-import comDOTgoogleDOTgsonDOTreflectDOTTypeToken;
-import comDOTmojangDOTbrigadierDOTCommandDispatcher;
-import comDOTmojangDOTbrigadierDOTargumentsDOTStringArgumentType;
-import ioDOTnettyDOTbufferDOTByteBuf;
-import javaDOTioDOTIOException;
-import javaDOTioDOTReader;
-import javaDOTioDOTWriter;
-import javaDOTnioDOTfileDOTFiles;
-import javaDOTnioDOTfileDOTPath;
-import javaDOTutilDOTArrayDeque;
-import javaDOTutilDOTArrayList;
-import javaDOTutilDOTHashMap;
-import javaDOTutilDOTHashSet;
-import javaDOTutilDOTList;
-import javaDOTutilDOTMap;
-import javaDOTutilDOTSet;
-import javaDOTutilDOTUUID;
-import netDOTminecraftDOTclientDOTMinecraft;
-import netDOTminecraftDOTclientDOTguiDOTGuiGraphics;
-import netDOTminecraftDOTclientDOTguiDOTcomponentsDOTButton;
-import netDOTminecraftDOTclientDOTguiDOTscreensDOTScreen;
-import netDOTminecraftDOTcommandsDOTCommandSourceStack;
-import netDOTminecraftDOTcommandsDOTCommands;
-import netDOTminecraftDOTcoreDOTBlockPos;
-import netDOTminecraftDOTcoreDOTcomponentDOTDataComponents;
-import netDOTminecraftDOTnbtDOTCompoundTag;
-import netDOTminecraftDOTnetworkDOTchatDOTComponent;
-import netDOTminecraftDOTresourcesDOTResourceLocation;
-import netDOTminecraftDOTserverDOTMinecraftServer;
-import netDOTminecraftDOTserverDOTlevelDOTServerLevel;
-import netDOTminecraftDOTserverDOTlevelDOTServerPlayer;
-import netDOTminecraftDOTtagsDOTBlockTags;
-import netDOTminecraftDOTtagsDOTItemTags;
-import netDOTminecraftDOTworldDOTInteractionHand;
-import netDOTminecraftDOTworldDOTentityDOTEntity;
-import netDOTminecraftDOTworldDOTentityDOTEquipmentSlot;
-import netDOTminecraftDOTworldDOTentityDOTaiDOTattributesDOTAttributeInstance;
-import netDOTminecraftDOTworldDOTentityDOTaiDOTattributesDOTAttributeModifier;
-import netDOTminecraftDOTworldDOTentityDOTaiDOTattributesDOTAttributes;
-import netDOTminecraftDOTworldDOTentityDOTplayerDOTInventory;
-import netDOTminecraftDOTworldDOTentityDOTplayerDOTPlayer;
-import netDOTminecraftDOTworldDOTitemDOTItem;
-import netDOTminecraftDOTworldDOTitemDOTItemStack;
-import netDOTminecraftDOTworldDOTitemDOTItems;
-import netDOTminecraftDOTworldDOTitemDOTcomponentDOTCustomData;
-import netDOTminecraftDOTworldDOTlevelDOTblockDOTBlocks;
-import netDOTminecraftDOTworldDOTlevelDOTblockDOTstateDOTBlockState;
-import netDOTminecraftDOTworldDOTlevelDOTstorageDOTLevelResource;
-import netDOTminecraftforgeDOTapiDOTdistmarkerDOTDist;
-import netDOTminecraftforgeDOTapiDOTdistmarkerDOTOnlyIn;
-import netDOTminecraftforgeDOTclientDOTeventDOTInputEvent;
-import netDOTminecraftforgeDOTclientDOTeventDOTRegisterKeyMappingsEvent;
-import netDOTminecraftforgeDOTclientDOTsettingsDOTKeyConflictContext;
-import netDOTminecraftforgeDOTclientDOTsettingsDOTKeyModifier;
-import netDOTminecraftforgeDOTeventDOTRegisterCommandsEvent;
-import netDOTminecraftforgeDOTeventDOTTickEvent;
-import netDOTminecraftforgeDOTeventDOTentityDOTplayerDOTAttackEntityEvent;
-import netDOTminecraftforgeDOTeventDOTentityDOTplayerDOTPlayerInteractEvent;
-import netDOTminecraftforgeDOTeventDOTlevelDOTBlockEvent;
-import netDOTminecraftforgeDOTeventDOTserverDOTServerStartedEvent;
-import netDOTminecraftforgeDOTeventDOTserverDOTServerStoppingEvent;
-import netDOTminecraftforgeDOTfmlDOTcommonDOTMod;
-import netDOTminecraftforgeDOTnetworkDOTChannelBuilder;
-import netDOTminecraftforgeDOTnetworkDOTPacketDistributor;
-import netDOTminecraftforgeDOTnetworkDOTSimpleChannel;
-import orgDOTlwjglDOTglfwDOTGLFW;
-
+package com . example . moneymod ;
+import com . google . gson . Gson ;
+import com . google . gson . GsonBuilder ;
+import com . google . gson . reflect . TypeToken ;
+import com . mojang . brigadier . CommandDispatcher ;
+import com . mojang . brigadier . arguments . StringArgumentType ;
+import io . netty . buffer . ByteBuf ;
+import java . io . IOException ;
+import java . io . Reader ;
+import java . io . Writer ;
+import java . nio . file . Files ;
+import java . nio . file . Path ;
+import java . util . ArrayDeque ;
+import java . util . ArrayList ;
+import java . util . HashMap ;
+import java . util . HashSet ;
+import java . util . List ;
+import java . util . Map ;
+import java . util . Set ;
+import java . util . UUID ;
+import net . minecraft . client . Minecraft ;
+import net . minecraft . client . gui . GuiGraphics ;
+import net . minecraft . client . gui . components . Button ;
+import net . minecraft . client . gui . screens . Screen ;
+import net . minecraft . commands . CommandSourceStack ;
+import net . minecraft . commands . Commands ;
+import net . minecraft . core . BlockPos ;
+import net . minecraft . core . component . DataComponents ;
+import net . minecraft . nbt . CompoundTag ;
+import net . minecraft . network . chat . Component ;
+import net . minecraft . resources . ResourceLocation ;
+import net . minecraft . server . MinecraftServer ;
+import net . minecraft . server . level . ServerLevel ;
+import net . minecraft . server . level . ServerPlayer ;
+import net . minecraft . tags . BlockTags ;
+import net . minecraft . tags . ItemTags ;
+import net . minecraft . world . InteractionHand ;
+import net . minecraft . world . entity . Entity ;
+import net . minecraft . world . entity . EquipmentSlot ;
+import net . minecraft . world . entity . ai . attributes . AttributeInstance ;
+import net . minecraft . world . entity . ai . attributes . AttributeModifier ;
+import net . minecraft . world . entity . ai . attributes . Attributes ;
+import net . minecraft . world . entity . player . Inventory ;
+import net . minecraft . world . entity . player . Player ;
+import net . minecraft . world . item . Item ;
+import net . minecraft . world . item . ItemStack ;
+import net . minecraft . world . item . Items ;
+import net . minecraft . world . item . component . CustomData ;
+import net . minecraft . world . level . block . Blocks ;
+import net . minecraft . world . level . block . state . BlockState ;
+import net . minecraft . world . level . storage . LevelResource ;
+import net . minecraftforge . api . distmarker . Dist ;
+import net . minecraftforge . api . distmarker . OnlyIn ;
+import net . minecraftforge . client . event . InputEvent ;
+import net . minecraftforge . client . event . RegisterKeyMappingsEvent ;
+import net . minecraftforge . client . settings . KeyConflictContext ;
+import net . minecraftforge . client . settings . KeyModifier ;
+import net . minecraftforge . event . RegisterCommandsEvent ;
+import net . minecraftforge . event . TickEvent ;
+import net . minecraftforge . event . entity . player . AttackEntityEvent ;
+import net . minecraftforge . event . entity . player . PlayerInteractEvent ;
+import net . minecraftforge . event . level . BlockEvent ;
+import net . minecraftforge . event . server . ServerStartedEvent ;
+import net . minecraftforge . event . server . ServerStoppingEvent ;
+import net . minecraftforge . fml . common . Mod ;
+import net . minecraftforge . network . ChannelBuilder ;
+import net . minecraftforge . network . PacketDistributor ;
+import net . minecraftforge . network . SimpleChannel ;
+import org . lwjgl . glfw . GLFW ;
 enum Unlock {
 JUMP("jump", "Прыгать", 10),
 ATTACK("attack", "Бить", 20),
 PLACE("place", "Ставить блоки", 30),
-BREAK("break", "Ломать блоки", 50);
-public final String id; public final String title; public final long price;
-Unlock(String id, String title, long price) { thisDOTid = id; thisDOTtitle = title; thisDOTprice = price; }
-public static Unlock byId(String id) { for (Unlock u : values()) if (uDOTidDOTequalsIgnoreCase(id)) return u; return null; }
+BREAK("break", "Ломать блоки", 50) ;
+public final String id ; public final String title ; public final long price ;
+Unlock(String id, String title, long price) { this . id = id ; this . title = title ; this . price = price ; }
+public static Unlock byId(String id) { for (Unlock u : values()) if (u . id . equalsIgnoreCase(id)) return u ; return null ; }
 }
-
 enum Machine {
-SAW("saw", "Пила для дерева", 150, ItemsDOTIRON_AXE),
-DRILL("drill", "Бур для камня", 300, ItemsDOTIRON_PICKAXE);
-public final String id; public final String title; public final long price; private final Item base;
-Machine(String id, String title, long price, Item base) { thisDOTid = id; thisDOTtitle = title; thisDOTprice = price; thisDOTbase = base; }
-public static Machine byId(String id) { for (Machine m : values()) if (mDOTidDOTequalsIgnoreCase(id)) return m; return null; }
+SAW("saw", "Пила для дерева", 150, Items . IRON_AXE),
+DRILL("drill", "Бур для камня", 300, Items . IRON_PICKAXE) ;
+public final String id ; public final String title ; public final long price ; private final Item base ;
+Machine(String id, String title, long price, Item base) { this . id = id ; this . title = title ; this . price = price ; this . base = base ; }
+public static Machine byId(String id) { for (Machine m : values()) if (m . id . equalsIgnoreCase(id)) return m ; return null ; }
 public ItemStack create() {
-ItemStack s = new ItemStack(base);
-CompoundTag tag = new CompoundTag(); tagDOTputBoolean("moneymod_" + id, true);
-sDOTset(DataComponentsDOTCUSTOM_DATA, CustomDataDOTof(tag));
-sDOTset(DataComponentsDOTCUSTOM_NAME, ComponentDOTliteral(title));
-return s;
+ItemStack s = new ItemStack(base) ;
+CompoundTag tag = new CompoundTag() ; tag . putBoolean("moneymod_" + id, true) ;
+s . set(DataComponents . CUSTOM_DATA, CustomData . of(tag)) ;
+s . set(DataComponents . CUSTOM_NAME, Component . literal(title)) ;
+return s ;
 }
 public boolean matches(ItemStack s) {
-if (sDOTisEmpty()) return false;
-CustomData d = sDOTget(DataComponentsDOTCUSTOM_DATA);
-return d != null && dDOTcopyTag()DOTcontains("moneymod_" + id);
+if (s . isEmpty()) return false ;
+CustomData d = s . get(DataComponents . CUSTOM_DATA) ;
+return d != null && d . copyTag() . contains("moneymod_" + id) ;
 }
 }
-
 final class Prices {
-private static final Map<Item, Integer> P = new HashMap<>();
+private static final Map<Item, Integer> P = new HashMap<>() ;
 static {
-P DOTput(ItemsDOTCOBBLESTONE, 1); P DOTput(ItemsDOTCOBBLED_DEEPSLATE, 1); P DOTput(ItemsDOTSAND, 1);
-P DOTput(ItemsDOTWHEAT, 1); P DOTput(ItemsDOTCOAL, 3); P DOTput(ItemsDOTRAW_COPPER, 3);
-P DOTput(ItemsDOTLAPIS_LAZULI, 3); P DOTput(ItemsDOTREDSTONE, 2); P DOTput(ItemsDOTRAW_IRON, 5);
-P DOTput(ItemsDOTIRON_INGOT, 8); P DOTput(ItemsDOTRAW_GOLD, 8); P DOTput(ItemsDOTGOLD_INGOT, 12);
-P DOTput(ItemsDOTEMERALD, 25); P DOTput(ItemsDOTDIAMOND, 40);
+P . put(Items . COBBLESTONE, 1) ; P . put(Items . COBBLED_DEEPSLATE, 1) ; P . put(Items . SAND, 1) ;
+P . put(Items . WHEAT, 1) ; P . put(Items . COAL, 3) ; P . put(Items . RAW_COPPER, 3) ;
+P . put(Items . LAPIS_LAZULI, 3) ; P . put(Items . REDSTONE, 2) ; P . put(Items . RAW_IRON, 5) ;
+P . put(Items . IRON_INGOT, 8) ; P . put(Items . RAW_GOLD, 8) ; P . put(Items . GOLD_INGOT, 12) ;
+P . put(Items . EMERALD, 25) ; P . put(Items . DIAMOND, 40) ;
 }
 private Prices() {}
 public static int unitPrice(ItemStack s) {
-if (sDOTisEmpty()) return 0;
-if (sDOTis(ItemTagsDOTLOGS)) return 2;
-return P DOTgetOrDefault(sDOTgetItem(), 0);
+if (s . isEmpty()) return 0 ;
+if (s . is(ItemTags . LOGS)) return 2 ;
+return P . getOrDefault(s . getItem(), 0) ;
 }
 public static long sellHand(ServerPlayer p) {
-ItemStack s = pDOTgetMainHandItem(); int unit = unitPrice(s);
-if (unit <= 0) return 0;
-long total = (long) unit STAR sDOTgetCount(); sDOTsetCount(0);
-EconomyManagerDOTadd(pDOTgetUUID(), total); return total;
+ItemStack s = p . getMainHandItem() ; int unit = unitPrice(s) ;
+if (unit <= 0) return 0 ;
+long total = (long) unit _ s . getCount() ; s . setCount(0) ;
+EconomyManager . add(p . getUUID(), total) ; return total ;
 }
 public static long sellAll(ServerPlayer p) {
-Inventory inv = pDOTgetInventory(); long total = 0;
+Inventory inv = p . getInventory() ; long total = 0 ;
 for (int i = 0; i < 36; i++) {
-ItemStack s = invDOTgetItem(i); int unit = unitPrice(s);
-if (unit > 0) { total += (long) unit STAR sDOTgetCount(); invDOTsetItem(i, ItemStackDOTEMPTY); }
+ItemStack s = inv . getItem(i) ; int unit = unitPrice(s) ;
+if (unit > 0) { total += (long) unit _ s . getCount() ; inv . setItem(i, ItemStack . EMPTY) ; }
 }
-if (total > 0) EconomyManagerDOTadd(pDOTgetUUID(), total); return total;
+if (total > 0) EconomyManager . add(p . getUUID(), total) ; return total ;
 }
-  }
-  
-
+}
 final class EconomyManager {
-private static final Gson GSON = new GsonBuilder()DOTsetPrettyPrinting()DOTcreate();
-private static Map<String, PlayerData> data = new HashMap<>();
-private static Path file;
-public static final class PlayerData { public long balance = 0; public Set<String> unlocked = new HashSet<>(); }
+private static final Gson GSON = new GsonBuilder() . setPrettyPrinting() . create() ;
+private static Map<String, PlayerData> data = new HashMap<>() ;
+private static Path file ;
+public static final class PlayerData { public long balance = 0 ; public Set<String> unlocked = new HashSet<>() ; }
 private EconomyManager() {}
 public static void load(MinecraftServer server) {
-file = serverDOTgetWorldPath(LevelResourceDOTROOT)DOTresolve("moneymodDOTjson"); data = new HashMap<>();
-if (FilesDOTexists(file)) {
-try (Reader r = FilesDOTnewBufferedReader(file)) {
-Map<String, PlayerData> loaded = GSONDOTfromJson(r, new TypeToken<Map<String, PlayerData>>() {}DOTgetType());
-if (loaded != null) data = loaded;
-} catch (IOException | RuntimeException e) { SystemDOTerrDOTprintln("[moneymod] Не удалось загрузить: " + e); }
+file = server . getWorldPath(LevelResource . ROOT) . resolve("moneymod" + (char)46 + "json") ; data = new HashMap<>() ;
+if (Files . exists(file)) {
+try (Reader r = Files . newBufferedReader(file)) {
+Map<String, PlayerData> loaded = GSON . fromJson(r, new TypeToken<Map<String, PlayerData>>() {} . getType()) ;
+if (loaded != null) data = loaded ;
+} catch (IOException | RuntimeException e) { System . err . println("[moneymod] Не удалось загрузить: " + e) ; }
 }
 }
 public static void save() {
-if (file == null) return;
-try (Writer w = FilesDOTnewBufferedWriter(file)) { GSONDOTtoJson(data, w); } catch (IOException e) { SystemDOTerrDOTprintln("[moneymod] Не удалось сохранить: " + e); }
+if (file == null) return ;
+try (Writer w = Files . newBufferedWriter(file)) { GSON . toJson(data, w) ; } catch (IOException e) { System . err . println("[moneymod] Не удалось сохранить: " + e) ; }
 }
-public static PlayerData get(UUID id) { return dataDOTcomputeIfAbsent(idDOTtoString(), k -> new PlayerData()); }
-public static long balance(UUID id) { return get(id)DOTbalance; }
-public static void add(UUID id, long amount) { get(id)DOTbalance += amount; }
-public static boolean has(UUID id, Unlock u) { return get(id)DOTunlockedDOTcontains(uDOTid); }
+public static PlayerData get(UUID id) { return data . computeIfAbsent(id . toString(), k -> new PlayerData()) ; }
+public static long balance(UUID id) { return get(id) . balance ; }
+public static void add(UUID id, long amount) { get(id) . balance += amount ; }
+public static boolean has(UUID id, Unlock u) { return get(id) . unlocked . contains(u . id) ; }
 public static boolean buy(UUID id, Unlock u) {
-PlayerData d = get(id);
-if (dDOTunlockedDOTcontains(uDOTid) || dDOTbalance < uDOTprice) return false;
-dDOTbalance -= uDOTprice; dDOTunlockedDOTadd(uDOTid); return true;
+PlayerData d = get(id) ;
+if (d . unlocked . contains(u . id) || d . balance < u . price) return false ;
+d . balance -= u . price ; d . unlocked . add(u . id) ; return true ;
 }
 }
-
 final class ModNetwork {
-public static final SimpleChannel CHANNEL = ChannelBuilderDOTnamed(ResourceLocationDOTfromNamespaceAndPath(MoneyModDOTMODID, "main"))DOTsimpleChannel()DOTnetworkProtocolVersion(1);
-private static int id = 0;
+public static final SimpleChannel CHANNEL = ChannelBuilder . named(ResourceLocation . fromNamespaceAndPath(MoneyMod . MODID, "main")) . simpleChannel() . networkProtocolVersion(1) ;
+private static int id = 0 ;
 private ModNetwork() {}
 public static void register() {
-CHANNELDOTmessageBuilder(BuyPacketDOTclass, id++)DOTencoder(BuyPacket::encode)DOTdecoder(BuyPacket::decode)DOTconsumerMainThread(BuyPacket::handle)DOTadd();
-CHANNELDOTmessageBuilder(BalancePacketDOTclass, id++)DOTencoder(BalancePacket::encode)DOTdecoder(BalancePacket::decode)DOTconsumerMainThread(BalancePacket::handle)DOTadd();
+CHANNEL . messageBuilder(BuyPacket . class, id++) . encoder(BuyPacket::encode) . decoder(BuyPacket::decode) . consumerMainThread(BuyPacket::handle) . add() ;
+CHANNEL . messageBuilder(BalancePacket . class, id++) . encoder(BalancePacket::encode) . decoder(BalancePacket::decode) . consumerMainThread(BalancePacket::handle) . add() ;
 }
 public record BuyPacket(String id) {
-void encode(ByteBuf buf) { netDOTminecraftDOTnetworkDOTcodecDOTByteBufCodecsDOTSTRING_UTF8DOTencode(buf, id); }
-static BuyPacket decode(ByteBuf buf) { return new BuyPacket(netDOTminecraftDOTnetworkDOTcodecDOTByteBufCodecsDOTSTRING_UTF8DOTdecode(buf)); }
-void handle(netDOTminecraftforgeDOTnetworkDOTNetworkEventDOTContext ctx) {
-ServerPlayer p = ctxDOTgetSender(); if (p == null) return;
-String result = ShopLogicDOTbuyOnServer(p, id);
-PacketDistributorDOTsendToPlayer(p, new BalancePacket(EconomyManagerDOTbalance(pDOTgetUUID()), new HashSet<>(EconomyManagerDOTget(pDOTgetUUID())DOTunlocked)));
-if (result != null) pDOTdisplayClientMessage(ComponentDOTliteral(result), true);
+void encode(ByteBuf buf) { net . minecraft . network . codec . ByteBufCodecs . STRING_UTF8 . encode(buf, id) ; }
+static BuyPacket decode(ByteBuf buf) { return new BuyPacket(net . minecraft . network . codec . ByteBufCodecs . STRING_UTF8 . decode(buf)) ; }
+void handle(net . minecraftforge . network . NetworkEvent . Context ctx) {
+ServerPlayer p = ctx . getSender() ; if (p == null) return ;
+String result = ShopLogic . buyOnServer(p, id) ;
+PacketDistributor . sendToPlayer(p, new BalancePacket(EconomyManager . balance(p . getUUID()), new HashSet<>(EconomyManager . get(p . getUUID()) . unlocked))) ;
+if (result != null) p . displayClientMessage(Component . literal(result), true) ;
 }
 }
 public record BalancePacket(long balance, Set<String> unlocked) {
-void encode(ByteBuf buf) { bufDOTwriteLong(balance); netDOTminecraftDOTnetworkDOTcodecDOTByteBufCodecsDOTSTRING_UTF8DOTencode(buf, StringDOTjoin(",", unlocked)); }
-static BalancePacket decode(ByteBuf buf) { long b = bufDOTreadLong(); String s = netDOTminecraftDOTnetworkDOTcodecDOTByteBufCodecsDOTSTRING_UTF8DOTdecode(buf); Set<String> set = new HashSet<>(); if (!sDOTisEmpty()) for (String x : sDOTsplit(",")) setDOTadd(x); return new BalancePacket(b, set); }
-void handle(netDOTminecraftforgeDOTnetworkDOTNetworkEventDOTContext ctx) { ClientDataDOTbalance = balance; ClientDataDOTunlocked = unlocked; }
+void encode(ByteBuf buf) { buf . writeLong(balance) ; net . minecraft . network . codec . ByteBufCodecs . STRING_UTF8 . encode(buf, String . join(",", unlocked)) ; }
+static BalancePacket decode(ByteBuf buf) { long b = buf . readLong() ; String s = net . minecraft . network . codec . ByteBufCodecs . STRING_UTF8 . decode(buf) ; Set<String> set = new HashSet<>() ; if (!s . isEmpty()) for (String x : s . split(",")) set . add(x) ; return new BalancePacket(b, set) ; }
+void handle(net . minecraftforge . network . NetworkEvent . Context ctx) { ClientData . balance = balance ; ClientData . unlocked = unlocked ; }
 }
-public static final class ClientData { public static long balance = 0; public static Set<String> unlocked = new HashSet<>(); }
+public static final class ClientData { public static long balance = 0 ; public static Set<String> unlocked = new HashSet<>() ; }
 }
-
 final class ShopLogic {
 private ShopLogic() {}
 public static String buyOnServer(ServerPlayer p, String id) {
-Unlock u = UnlockDOTbyId(id);
+Unlock u = Unlock . byId(id) ;
 if (u != null) {
-if (EconomyManagerDOThas(pDOTgetUUID(), u)) return "Уже куплено";
-if (!EconomyManagerDOTbuy(pDOTgetUUID(), u)) return "Не хватает денег: нужно " + uDOTprice;
-GameEventsDOTrefreshJump(p); EconomyManagerDOTsave(); return "Куплено: " + uDOTtitle;
+if (EconomyManager . has(p . getUUID(), u)) return "Уже куплено" ;
+if (!EconomyManager . buy(p . getUUID(), u)) return "Не хватает денег: нужно " + u . price ;
+GameEvents . refreshJump(p) ; EconomyManager . save() ; return "Куплено: " + u . title ;
 }
-Machine m = MachineDOTbyId(id);
+Machine m = Machine . byId(id) ;
 if (m != null) {
-if (EconomyManagerDOTbalance(pDOTgetUUID()) < mDOTprice) return "Не хватает денег: нужно " + mDOTprice;
-EconomyManagerDOTadd(pDOTgetUUID(), -mDOTprice);
-ItemStack stack = mDOTcreate();
-if (!pDOTgetInventory()DOTadd(stack)) pDOTdrop(stack, false);
-EconomyManagerDOTsave(); return "Куплено: " + mDOTtitle;
+if (EconomyManager . balance(p . getUUID()) < m . price) return "Не хватает денег: нужно " + m . price ;
+EconomyManager . add(p . getUUID(), -m . price) ;
+ItemStack stack = m . create() ;
+if (!p . getInventory() . add(stack)) p . drop(stack, false) ;
+EconomyManager . save() ; return "Куплено: " + m . title ;
 }
-return "Нет такого товара";
+return "Нет такого товара" ;
 }
 }
-
 final class GameEvents {
-private static final ResourceLocation NO_JUMP = ResourceLocationDOTfromNamespaceAndPath(MoneyModDOTMODID, "no_jump");
-private static final int MAX_TREE_BLOCKS = 128;
+private static final ResourceLocation NO_JUMP = ResourceLocation . fromNamespaceAndPath(MoneyMod . MODID, "no_jump") ;
+private static final int MAX_TREE_BLOCKS = 128 ;
 private GameEvents() {}
 private static boolean denied(Player player, Unlock u) {
-if (!(player instanceof ServerPlayer sp)) return false;
-if (EconomyManagerDOThas(spDOTgetUUID(), u)) return false;
-spDOTdisplayClientMessage(ComponentDOTliteral("Заблокировано: «" + uDOTtitle + "». Купи: /buy " + uDOTid), true);
-return true;
+if (!(player instanceof ServerPlayer sp)) return false ;
+if (EconomyManager . has(sp . getUUID(), u)) return false ;
+sp . displayClientMessage(Component . literal("Заблокировано: «" + u . title + "». Купи: /buy " + u . id), true) ;
+return true ;
 }
-public static boolean onBreak(BlockEventDOTBreakEvent e) {
-Player p = eDOTgetPlayer(); if (denied(p, UnlockDOTBREAK)) return true;
-if (p instanceof ServerPlayer sp && eDOTgetLevel() instanceof ServerLevel level) {
-ItemStack held = spDOTgetMainHandItem(); BlockPos origin = eDOTgetPos(); BlockState state = eDOTgetState();
-if (MachineDOTSAWDOTmatches(held) && stateDOTis(BlockTagsDOTLOGS)) fellTree(level, sp, origin, held);
-else if (MachineDOTDRILLDOTmatches(held)) drill(level, sp, origin, held);
+public static boolean onBreak(BlockEvent . BreakEvent e) {
+Player p = e . getPlayer() ; if (denied(p, Unlock . BREAK)) return true ;
+if (p instanceof ServerPlayer sp && e . getLevel() instanceof ServerLevel level) {
+ItemStack held = sp . getMainHandItem() ; BlockPos origin = e . getPos() ; BlockState state = e . getState() ;
+if (Machine . SAW . matches(held) && state . is(BlockTags . LOGS)) fellTree(level, sp, origin, held) ;
+else if (Machine . DRILL . matches(held)) drill(level, sp, origin, held) ;
 }
-return false;
+return false ;
 }
 private static void fellTree(ServerLevel level, ServerPlayer sp, BlockPos origin, ItemStack tool) {
-Set<BlockPos> seen = new HashSet<>(); List<BlockPos> found = new ArrayList<>(); ArrayDeque<BlockPos> queue = new ArrayDeque<>();
-seenDOTadd(origin); queueDOTadd(origin);
-while (!queueDOTisEmpty() && foundDOTsize() < MAX_TREE_BLOCKS) {
-BlockPos cur = queueDOTpoll();
+Set<BlockPos> seen = new HashSet<>() ; List<BlockPos> found = new ArrayList<>() ; ArrayDeque<BlockPos> queue = new ArrayDeque<>() ;
+seen . add(origin) ; queue . add(origin) ;
+while (!queue . isEmpty() && found . size() < MAX_TREE_BLOCKS) {
+BlockPos cur = queue . poll() ;
 for (int dx = -1; dx <= 1; dx++) for (int dy = -1; dy <= 1; dy++) for (int dz = -1; dz <= 1; dz++) {
-if (dx == 0 && dy == 0 && dz == 0) continue; BlockPos n = curDOToffset(dx, dy, dz);
-if (!seenDOTadd(n)) continue;
-if (levelDOTgetBlockState(n)DOTis(BlockTagsDOTLOGS)) { foundDOTadd(n); queueDOTadd(n); }
+if (dx == 0 && dy == 0 && dz == 0) continue ; BlockPos n = cur . offset(dx, dy, dz) ;
+if (!seen . add(n)) continue ;
+if (level . getBlockState(n) . is(BlockTags . LOGS)) { found . add(n) ; queue . add(n) ; }
 }
 }
-for (BlockPos pos : found) levelDOTdestroyBlock(pos, true, sp);
-toolDOThurtAndBreak(1, sp, EquipmentSlotDOTMAINHAND);
+for (BlockPos pos : found) level . destroyBlock(pos, true, sp) ;
+tool . hurtAndBreak(1, sp, EquipmentSlot . MAINHAND) ;
 }
 private static void drill(ServerLevel level, ServerPlayer sp, BlockPos origin, ItemStack tool) {
 for (int dx = -1; dx <= 1; dx++) for (int dy = -1; dy <= 1; dy++) for (int dz = -1; dz <= 1; dz++) {
-if (dx == 0 && dy == 0 && dz == 0) continue; BlockPos pos = originDOToffset(dx, dy, dz); BlockState st = levelDOTgetBlockState(pos);
-float hardness = stDOTgetDestroySpeed(level, pos);
-if (stDOTis(BlockTagsDOTMINEABLE_WITH_PICKAXE) && hardness >= 0 && hardness <= 5) levelDOTdestroyBlock(pos, true, sp);
+if (dx == 0 && dy == 0 && dz == 0) continue ; BlockPos pos = origin . offset(dx, dy, dz) ; BlockState st = level . getBlockState(pos) ;
+float hardness = st . getDestroySpeed(level, pos) ;
+if (st . is(BlockTags . MINEABLE_WITH_PICKAXE) && hardness >= 0 && hardness <= 5) level . destroyBlock(pos, true, sp) ;
 }
-toolDOThurtAndBreak(1, sp, EquipmentSlotDOTMAINHAND);
+tool . hurtAndBreak(1, sp, EquipmentSlot . MAINHAND) ;
 }
-public static boolean onPlace(BlockEventDOTEntityPlaceEvent e) { Entity ent = eDOTgetEntity(); return ent instanceof Player p && denied(p, UnlockDOTPLACE); }
-public static boolean onAttack(AttackEntityEvent e) { return denied(eDOTgetEntity(), UnlockDOTATTACK); }
-public static boolean onRightClickBlock(PlayerInteractEventDOTRightClickBlock e) {
-if (!(eDOTgetEntity() instanceof ServerPlayer sp)) return false;
-if (eDOTgetHand() != InteractionHandDOTMAIN_HAND) return false;
-BlockState state = eDOTgetLevel()DOTgetBlockState(eDOTgetPos());
-if (stateDOTis(BlocksDOTGOLD_BLOCK) && spDOTgetMainHandItem()DOTisEmpty()) {
-EconomyManagerDOTadd(spDOTgetUUID(), 1);
-spDOTdisplayClientMessage(ComponentDOTliteral("+1 монета (баланс: " + EconomyManagerDOTbalance(spDOTgetUUID()) + ")"), true);
-return false;
+public static boolean onPlace(BlockEvent . EntityPlaceEvent e) { Entity ent = e . getEntity() ; return ent instanceof Player p && denied(p, Unlock . PLACE) ; }
+public static boolean onAttack(AttackEntityEvent e) { return denied(e . getEntity(), Unlock . ATTACK) ; }
+public static boolean onRightClickBlock(PlayerInteractEvent . RightClickBlock e) {
+if (!(e . getEntity() instanceof ServerPlayer sp)) return false ;
+if (e . getHand() != InteractionHand . MAIN_HAND) return false ;
+BlockState state = e . getLevel() . getBlockState(e . getPos()) ;
+if (state . is(Blocks . GOLD_BLOCK) && sp . getMainHandItem() . isEmpty()) {
+EconomyManager . add(sp . getUUID(), 1) ;
+sp . displayClientMessage(Component . literal("+1 монета (баланс: " + EconomyManager . balance(sp . getUUID()) + ")"), true) ;
+return false ;
 }
-if (stateDOTis(BlocksDOTEMERALD_BLOCK) && !spDOTgetMainHandItem()DOTisEmpty()) {
-long got = PricesDOTsellHand(sp);
-spDOTdisplayClientMessage(ComponentDOTliteral(got > 0 ? "Скупщик заплатил " + got + " монет" : "Скупщик это не берёт"), true);
-return true;
+if (state . is(Blocks . EMERALD_BLOCK) && !sp . getMainHandItem() . isEmpty()) {
+long got = Prices . sellHand(sp) ;
+sp . displayClientMessage(Component . literal(got > 0 ? "Скупщик заплатил " + got + " монет" : "Скупщик это не берёт"), true) ;
+return true ;
 }
-return false;
+return false ;
 }
-public static void onPlayerTick(TickEventDOTPlayerTickEventDOTPost e) { if (eDOTplayer() instanceof ServerPlayer sp && spDOTtickCount % 20 == 0) refreshJump(sp); }
+public static void onPlayerTick(TickEvent . PlayerTickEvent . Post e) { if (e . player() instanceof ServerPlayer sp && sp . tickCount % 20 == 0) refreshJump(sp) ; }
 public static void refreshJump(ServerPlayer sp) {
-AttributeInstance attr = spDOTgetAttribute(AttributesDOTJUMP_STRENGTH); if (attr == null) return;
-boolean locked = !EconomyManagerDOThas(spDOTgetUUID(), UnlockDOTJUMP); boolean has = attrDOThasModifier(NO_JUMP);
-if (locked && !has) attrDOTaddTransientModifier(new AttributeModifier(NO_JUMP, -1DOT0, AttributeModifierDOTOperationDOTADD_MULTIPLIED_TOTAL));
-else if (!locked && has) attrDOTremoveModifier(NO_JUMP);
+AttributeInstance attr = sp . getAttribute(Attributes . JUMP_STRENGTH) ; if (attr == null) return ;
+boolean locked = !EconomyManager . has(sp . getUUID(), Unlock . JUMP) ; boolean has = attr . hasModifier(NO_JUMP) ;
+if (locked && !has) attr . addTransientModifier(new AttributeModifier(NO_JUMP, -1 . 0, AttributeModifier . Operation . ADD_MULTIPLIED_TOTAL)) ;
+else if (!locked && has) attr . removeModifier(NO_JUMP) ;
 }
-  }
-  
-
+}
 final class MoneyCommands {
 private MoneyCommands() {}
-private static void ok(CommandSourceStack src, String text) { srcDOTsendSuccess(() -> ComponentDOTliteral(text), false); }
+private static void ok(CommandSourceStack src, String text) { src . sendSuccess(() -> Component . literal(text), false) ; }
 public static void register(CommandDispatcher<CommandSourceStack> d) {
-dDOTregister(CommandsDOTliteral("balance")DOTexecutes(ctx -> { ServerPlayer p = ctxDOTgetSource()DOTgetPlayerOrException(); ok(ctxDOTgetSource(), "Баланс: " + EconomyManagerDOTbalance(pDOTgetUUID()) + " монет"); return 1; }));
-dDOTregister(CommandsDOTliteral("shop")DOTexecutes(ctx -> {
-ServerPlayer p = ctxDOTgetSource()DOTgetPlayerOrException(); StringBuilder sb = new StringBuilder("Магазин (/buy <id>):\nУмения:");
-for (Unlock u : UnlockDOTvalues()) { String mark = EconomyManagerDOThas(pDOTgetUUID(), u) ? " [куплено]" : ""; sbDOTappend("\n- ")DOTappend(uDOTid)DOTappend(": ")DOTappend(uDOTtitle)DOTappend(" — ")DOTappend(uDOTprice)DOTappend(mark); }
-sbDOTappend("\nТехника:"); for (Machine m : MachineDOTvalues()) sbDOTappend("\n- ")DOTappend(mDOTid)DOTappend(": ")DOTappend(mDOTtitle)DOTappend(" — ")DOTappend(mDOTprice);
-ok(ctxDOTgetSource(), sbDOTtoString()); return 1;
-}));
-dDOTregister(CommandsDOTliteral("buy")DOTthen(CommandsDOTargument("id", StringArgumentTypeDOTword())DOTexecutes(ctx -> {
-CommandSourceStack src = ctxDOTgetSource(); ServerPlayer p = srcDOTgetPlayerOrException(); String id = StringArgumentTypeDOTgetString(ctx, "id");
-String r = ShopLogicDOTbuyOnServer(p, id);
-if (rDOTstartsWith("Куплено")) { ok(src, r); return 1; } srcDOTsendFailure(ComponentDOTliteral(r)); return 0;
-})));
-dDOTregister(CommandsDOTliteral("sell")DOTexecutes(ctx -> { ServerPlayer p = ctxDOTgetSource()DOTgetPlayerOrException(); long got = PricesDOTsellHand(p); if (got <= 0) { ctxDOTgetSource()DOTsendFailure(ComponentDOTliteral("Это не покупают (держи ресурс в руке)")); return 0; } ok(ctxDOTgetSource(), "Продано за " + got + " монет"); return 1; }));
-dDOTregister(CommandsDOTliteral("sellall")DOTexecutes(ctx -> { ServerPlayer p = ctxDOTgetSource()DOTgetPlayerOrException(); long got = PricesDOTsellAll(p); if (got <= 0) { ctxDOTgetSource()DOTsendFailure(ComponentDOTliteral("Нечего продавать")); return 0; } ok(ctxDOTgetSource(), "Продано всё за " + got + " монет"); return 1; }));
+d . register(Commands . literal("balance") . executes(ctx -> { ServerPlayer p = ctx . getSource() . getPlayerOrException() ; ok(ctx . getSource(), "Баланс: " + EconomyManager . balance(p . getUUID()) + " монет") ; return 1 ; })) ;
+d . register(Commands . literal("shop") . executes(ctx -> {
+ServerPlayer p = ctx . getSource() . getPlayerOrException() ; StringBuilder sb = new StringBuilder("Магазин (/buy <id>):\nУмения:") ;
+for (Unlock u : Unlock . values()) { String mark = EconomyManager . has(p . getUUID(), u) ? " [куплено]" : "" ; sb . append("\n- ") . append(u . id) . append(": ") . append(u . title) . append(" — ") . append(u . price) . append(mark) ; }
+sb . append("\nТехника:") ; for (Machine m : Machine . values()) sb . append("\n- ") . append(m . id) . append(": ") . append(m . title) . append(" — ") . append(m . price) ;
+ok(ctx . getSource(), sb . toString()) ; return 1 ;
+})) ;
+d . register(Commands . literal("buy") . then(Commands . argument("id", StringArgumentType . word()) . executes(ctx -> {
+CommandSourceStack src = ctx . getSource() ; ServerPlayer p = src . getPlayerOrException() ; String id = StringArgumentType . getString(ctx, "id") ;
+String r = ShopLogic . buyOnServer(p, id) ;
+if (r . startsWith("Куплено")) { ok(src, r) ; return 1 ; } src . sendFailure(Component . literal(r)) ; return 0 ;
+}))) ;
+d . register(Commands . literal("sell") . executes(ctx -> { ServerPlayer p = ctx . getSource() . getPlayerOrException() ; long got = Prices . sellHand(p) ; if (got <= 0) { ctx . getSource() . sendFailure(Component . literal("Это не покупают (держи ресурс в руке)")) ; return 0 ; } ok(ctx . getSource(), "Продано за " + got + " монет") ; return 1 ; })) ;
+d . register(Commands . literal("sellall") . executes(ctx -> { ServerPlayer p = ctx . getSource() . getPlayerOrException() ; long got = Prices . sellAll(p) ; if (got <= 0) { ctx . getSource() . sendFailure(Component . literal("Нечего продавать")) ; return 0 ; } ok(ctx . getSource(), "Продано всё за " + got + " монет") ; return 1 ; })) ;
 }
 }
-
-@OnlyIn(DistDOTCLIENT)
+@OnlyIn(Dist . CLIENT)
 final class ShopScreen extends Screen {
-protected ShopScreen() { super(ComponentDOTliteral("Магазин")); }
+protected ShopScreen() { super(Component . literal("Магазин")) ; }
 @Override protected void init() {
-int cx = thisDOTwidth / 2; int y = 40;
-for (Unlock u : UnlockDOTvalues()) {
-boolean bought = ModNetworkDOTClientDataDOTunlockedDOTcontains(uDOTid);
-String label = uDOTtitle + " — " + uDOTprice + (bought ? " [куплено]" : "");
-addRenderableWidget(ButtonDOTbuilder(ComponentDOTliteral(label), b -> { if (!bought) ModNetworkDOTCHANNELDOTsendToServer(new ModNetworkDOTBuyPacket(uDOTid)); })DOTbounds(cx - 100, y, 200, 20)DOTbuild());
-y += 24;
+int cx = this . width / 2 ; int y = 40 ;
+for (Unlock u : Unlock . values()) {
+boolean bought = ModNetwork . ClientData . unlocked . contains(u . id) ;
+String label = u . title + " — " + u . price + (bought ? " [куплено]" : "") ;
+addRenderableWidget(Button . builder(Component . literal(label), b -> { if (!bought) ModNetwork . CHANNEL . sendToServer(new ModNetwork . BuyPacket(u . id)) ; }) . bounds(cx - 100, y, 200, 20) . build()) ;
+y += 24 ;
 }
-y += 10;
-for (Machine m : MachineDOTvalues()) {
-String label = mDOTtitle + " — " + mDOTprice;
-addRenderableWidget(ButtonDOTbuilder(ComponentDOTliteral(label), b -> ModNetworkDOTCHANNELDOTsendToServer(new ModNetworkDOTBuyPacket(mDOTid)))DOTbounds(cx - 100, y, 200, 20)DOTbuild());
-y += 24;
+y += 10 ;
+for (Machine m : Machine . values()) {
+String label = m . title + " — " + m . price ;
+addRenderableWidget(Button . builder(Component . literal(label), b -> ModNetwork . CHANNEL . sendToServer(new ModNetwork . BuyPacket(m . id))) . bounds(cx - 100, y, 200, 20) . build()) ;
+y += 24 ;
 }
-addRenderableWidget(ButtonDOTbuilder(ComponentDOTliteral("Закрыть"), b -> thisDOTonClose())DOTbounds(cx - 50, y + 10, 100, 20)DOTbuild());
+addRenderableWidget(Button . builder(Component . literal("Закрыть"), b -> this . onClose()) . bounds(cx - 50, y + 10, 100, 20) . build()) ;
 }
 @Override public void render(GuiGraphics g, int mx, int my, float pt) {
-superDOTrender(g, mx, my, pt);
-gDOTdrawCenteredString(thisDOTfont, "Магазин | Баланс: " + ModNetworkDOTClientDataDOTbalance + " монет", thisDOTwidth / 2, 20, 0xFFFFFF);
-gDOTdrawCenteredString(thisDOTfont, "Нажми B или Esc чтобы закрыть", thisDOTwidth / 2, thisDOTheight - 20, 0xAAAAAA);
+super . render(g, mx, my, pt) ;
+g . drawCenteredString(this . font, "Магазин | Баланс: " + ModNetwork . ClientData . balance + " монет", this . width / 2, 20, 0xFFFFFF) ;
+g . drawCenteredString(this . font, "Нажми B или Esc чтобы закрыть", this . width / 2, this . height - 20, 0xAAAAAA) ;
 }
-@Override public boolean isPauseScreen() { return false; }
+@Override public boolean isPauseScreen() { return false ; }
 }
-
-@OnlyIn(DistDOTCLIENT)
+@OnlyIn(Dist . CLIENT)
 final class ClientEvents {
-public static netDOTminecraftDOTclientDOTKeyMapping SHOP_KEY;
+public static net . minecraft . client . KeyMapping SHOP_KEY ;
 private ClientEvents() {}
 public static void registerKeys(RegisterKeyMappingsEvent e) {
-SHOP_KEY = new netDOTminecraftDOTclientDOTKeyMapping("keyDOTmoneymodDOTshop", KeyConflictContextDOTIN_GAME, KeyModifierDOTNONE, comDOTmojangDOTblaze3dDOTplatformDOTInputConstantsDOTTypeDOTKEYSYM, GLFW DOTGLFW_KEY_B, "keyDOTcategoriesDOTmoneymod");
-eDOTregister(SHOP_KEY);
+SHOP_KEY = new net . minecraft . client . KeyMapping("key" + (char)46 + "moneymod" + (char)46 + "shop", KeyConflictContext . IN_GAME, KeyModifier . NONE, com . mojang . blaze3d . platform . InputConstants . Type . KEYSYM, GLFW . GLFW_KEY_B, "key" + (char)46 + "categories" + (char)46 + "moneymod") ;
+e . register(SHOP_KEY) ;
 }
-public static void onKey(InputEventDOTKey e) {
-if (SHOP_KEY != null && SHOP_KEYDOTconsumeClick()) {
-Minecraft mc = MinecraftDOTgetInstance();
-if (mcDOTscreen == null) mcDOTsetScreen(new ShopScreen());
-else if (mcDOTscreen instanceof ShopScreen) mcDOTsetScreen(null);
+public static void onKey(InputEvent . Key e) {
+if (SHOP_KEY != null && SHOP_KEY . consumeClick()) {
+Minecraft mc = Minecraft . getInstance() ;
+if (mc . screen == null) mc . setScreen(new ShopScreen()) ;
+else if (mc . screen instanceof ShopScreen) mc . setScreen(null) ;
 }
 }
 }
-
-@Mod(MoneyModDOTMODID)
+@Mod(MoneyMod . MODID)
 public class MoneyMod {
-public static final String MODID = "moneymod";
-private static int saveTimer = 0;
+public static final String MODID = "moneymod" ;
+private static int saveTimer = 0 ;
 public MoneyMod() {
-ModNetworkDOTregister();
-ServerStartedEventDOTBUS DOTaddListener(e -> EconomyManagerDOTload(eDOTgetServer()));
-ServerStoppingEventDOTBUS DOTaddListener(e -> EconomyManagerDOTsave());
-RegisterCommandsEventDOTBUS DOTaddListener(e -> MoneyCommandsDOTregister(eDOTgetDispatcher()));
-BlockEventDOTBreakEventDOTBUS DOTaddListener(GameEvents::onBreak);
-BlockEventDOTEntityPlaceEventDOTBUS DOTaddListener(GameEvents::onPlace);
-AttackEntityEventDOTBUS DOTaddListener(GameEvents::onAttack);
-PlayerInteractEventDOTRightClickBlockDOTBUS DOTaddListener(GameEvents::onRightClickBlock);
-TickEventDOTPlayerTickEventDOTPostDOTBUS DOTaddListener(GameEvents::onPlayerTick);
-TickEventDOTServerTickEventDOTPostDOTBUS DOTaddListener(e -> { if (++saveTimer >= 6000) { saveTimer = 0; EconomyManagerDOTsave(); } });
-if (netDOTminecraftforgeDOTfmlDOTloadingDOTFMLEnvironmentDOTdist == DistDOTCLIENT) {
-netDOTminecraftforgeDOTcommonDOTMinecraftForgeDOTEVENT_BUS DOTaddListener(ClientEvents::onKey);
-netDOTminecraftforgeDOTfmlDOTjavafmlmodDOTFMLJavaModLoadingContextDOTget()DOTgetModEventBus()DOTaddListener(ClientEvents::registerKeys);
-}
-}
-  }
-                                              
+ModNetwork . r

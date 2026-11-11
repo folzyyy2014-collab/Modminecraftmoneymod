@@ -58,6 +58,97 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.fml.common.Mod;
 
+@Mod(MoneyMod.MODID)
+public class MoneyMod {
+    public static final String MODID = "moneymod";
+    private static int saveTimer = 0;
+    private static int interestTimer = 0;
+
+    public MoneyMod() {
+        ServerStartedEvent.BUS.addListener(e -> EconomyManager.load(e.getServer()));
+        ServerStoppingEvent.BUS.addListener(e -> EconomyManager.save());
+        RegisterCommandsEvent.BUS.addListener(e -> MoneyCommands.register(e.getDispatcher()));
+
+        BlockEvent.BreakEvent.BUS.addListener(GameEvents::onBreak);
+        BlockEvent.EntityPlaceEvent.BUS.addListener(GameEvents::onPlace);
+        AttackEntityEvent.BUS.addListener(GameEvents::onAttack);
+        PlayerInteractEvent.RightClickBlock.BUS.addListener(GameEvents::onRightClickBlock);
+        TickEvent.PlayerTickEvent.Post.BUS.addListener(GameEvents::onPlayerTick);
+
+        TickEvent.ServerTickEvent.Post.BUS.addListener(e -> {
+            // автосохранение раз в 5 минут
+            if (++saveTimer >= 6000) {
+                saveTimer = 0;
+                EconomyManager.save();
+            }
+            // проценты в банке раз в 10 минут
+            if (++interestTimer >= 12000) {
+                interestTimer = 0;
+                EconomyManager.applyInterest();
+            }
+        });
+    }
+}
+package com.example.moneymod;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.LongArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.LevelResource;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.fml.common.Mod;
+
 enum Unlock {
     JUMP("jump", "Прыгать", 10),
     ATTACK("attack", "Бить", 20),
@@ -296,7 +387,66 @@ final class EconomyManager {
     public static void addTreasury(long amount) {
         get(TREASURY).balance += amount;
     }
-}
+    }
+                            package com.example.moneymod;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.LongArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.LevelResource;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.fml.common.Mod;
 
 /** Меню магазина. Кнопки просто отправляют серверные команды, вся логика остаётся на сервере. */
 final class ShopScreen extends Screen {
@@ -498,7 +648,66 @@ final class GameEvents {
             attr.removeModifier(NO_JUMP);
         }
     }
-}
+    }
+                            package com.example.moneymod;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.LongArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.LevelResource;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.fml.common.Mod;
 
 final class MoneyCommands {
     private MoneyCommands() {}
@@ -539,4 +748,111 @@ final class MoneyCommands {
             ServerPlayer p = ctx.getSource().getPlayerOrException();
             StringBuilder sb = new StringBuilder("Магазин (/buy <id>), либо ПКМ по алмазному блоку:\nУмения:");
             for (Unlock u : Unlock.values()) {
-                String mark = EconomyManager.has(p.getUUID(), u) ? " [куплено]" : ""
+                String mark = EconomyManager.has(p.getUUID(), u) ? " [куплено]" : "";
+                sb.append("\n- ").append(u.id).append(": ").append(u.title)
+                  .append(" — ").append(u.price).append(mark);
+            }
+            sb.append("\nТехника:");
+            for (Machine m : Machine.values()) {
+                sb.append("\n- ").append(m.id).append(": ").append(m.title)
+                  .append(" — ").append(m.price);
+            }
+            ok(ctx.getSource(), sb.toString());
+            return 1;
+        }));
+
+        d.register(Commands.literal("buy")
+            .then(Commands.argument("id", StringArgumentType.word()).executes(ctx -> {
+                CommandSourceStack src = ctx.getSource();
+                ServerPlayer p = src.getPlayerOrException();
+                String id = StringArgumentType.getString(ctx, "id");
+
+                Unlock u = Unlock.byId(id);
+                if (u != null) {
+                    if (EconomyManager.has(p.getUUID(), u)) {
+                        src.sendFailure(Component.literal("Уже куплено"));
+                        return 0;
+                    }
+                    if (!EconomyManager.buy(p.getUUID(), u)) {
+                        src.sendFailure(Component.literal("Не хватает наличных: нужно " + u.price));
+                        return 0;
+                    }
+                    GameEvents.refreshJump(p);
+                    ok(src, "Куплено: " + u.title);
+                    return 1;
+                }
+
+                Machine m = Machine.byId(id);
+                if (m != null) {
+                    if (EconomyManager.balance(p.getUUID()) < m.price) {
+                        src.sendFailure(Component.literal("Не хватает наличных: нужно " + m.price));
+                        return 0;
+                    }
+                    EconomyManager.add(p.getUUID(), -m.price);
+                    ItemStack stack = m.create();
+                    if (!p.getInventory().add(stack)) p.drop(stack, false);
+                    ok(src, "Куплено: " + m.title);
+                    return 1;
+                }
+
+                src.sendFailure(Component.literal("Нет такого товара. Смотри /shop"));
+                return 0;
+            })));
+
+        d.register(Commands.literal("sell").executes(ctx -> {
+            ServerPlayer p = ctx.getSource().getPlayerOrException();
+            long got = Prices.sellHand(p);
+            if (got <= 0) {
+                ctx.getSource().sendFailure(Component.literal("Это не покупают (держи ресурс в руке)"));
+                return 0;
+            }
+            ok(ctx.getSource(), "Продано, получено " + got + " (налог " + EconomyManager.taxPercent + "% ушёл в казну)");
+            return 1;
+        }));
+
+        d.register(Commands.literal("sellall").executes(ctx -> {
+            ServerPlayer p = ctx.getSource().getPlayerOrException();
+            long got = Prices.sellAll(p);
+            if (got <= 0) {
+                ctx.getSource().sendFailure(Component.literal("Нечего продавать"));
+                return 0;
+            }
+            ok(ctx.getSource(), "Продано всё, получено " + got + " (налог " + EconomyManager.taxPercent + "% ушёл в казну)");
+            return 1;
+        }));
+
+        // ---- Банк ----
+        d.register(Commands.literal("bank").executes(ctx -> {
+            ServerPlayer p = ctx.getSource().getPlayerOrException();
+            ok(ctx.getSource(), "Наличные: " + EconomyManager.balance(p.getUUID())
+                + "\nНа счету: " + EconomyManager.bank(p.getUUID())
+                + "\nПроценты: " + EconomyManager.INTEREST_PERCENT + "% раз в 10 минут"
+                + "\n/deposit <сумма>, /withdraw <сумма>, /depositall, /withdrawall");
+            return 1;
+        }));
+
+        d.register(Commands.literal("deposit")
+            .then(Commands.argument("amount", LongArgumentType.longArg(1)).executes(ctx ->
+                deposit(ctx.getSource(), ctx.getSource().getPlayerOrException(),
+                    LongArgumentType.getLong(ctx, "amount")))));
+
+        d.register(Commands.literal("withdraw")
+            .then(Commands.argument("amount", LongArgumentType.longArg(1)).executes(ctx ->
+                withdraw(ctx.getSource(), ctx.getSource().getPlayerOrException(),
+                    LongArgumentType.getLong(ctx, "amount")))));
+
+        d.register(Commands.literal("depositall").executes(ctx ->
+            deposit(ctx.getSource(), ctx.getSource().getPlayerOrException(), Long.MAX_VALUE)));
+
+        d.register(Commands.literal("withdrawall").executes(ctx ->
+            withdraw(ctx.getSource(), ctx.getSource().getPlayerOrException(), Long.MAX_VALUE)));
+
+        // ---- Казна ----
+        d.register(Commands.literal("treasury").executes(ctx -> {
+            ok(ctx.getSource(), "Казна: " + EconomyManager.treasury()
+                + " | Налог с продаж: " + EconomyManager.taxPercent + "%");
+            return 1;
+        }));
+    }
+               }
+        
